@@ -1,26 +1,37 @@
 #include <stdio.h>
 #include "estructuras.h"
-#include "funciones.h"
+#include <string.h>
 #include <stdlib.h>
+#include "funciones.h"
 
 int main(){
-	struct colaTDA *cola1 = crear_cola();
-	int elemento = 5;
-	encolar(cola1,&elemento);
-	if((*cola1).final == NULL){
-		printf("La cola esta vacia");
-	}else{
-		printf("La cola no esta vacia\n");
-		printf("%ld\n",(*cola1).tamano);
-	}
-	int elemento2 = 6;
-	encolar(cola1,&elemento2);
+	int tamString = 50;
+	char entrada[tamString];
+	cola *cola1 = crear_cola();
+	int numero = 0;
+	do{
+		fgets(entrada, tamString, stdin);
+		if(strcmp(entrada, "x\n")!=0){
+			numero = atoi(entrada);
+			int valid = encolar(cola1,&numero);
+			if(valid==-1){
+				printf("Error al encolar\n");
+			}
 
-	printf("%d\n",*(int*)(*(*cola1).inicio).elemento);
-	printf("%d\n",*(int*)(*(*cola1).final).elemento);
-	printf("%d\n",*(int*)decolar(cola1));
-	printf("%d\n",*(int*)decolar(cola1));
+		}
+	}while(strcmp(entrada, "x\n")!=0);
+
+	printf("La cola tiene %ld elementos.\n",(*cola1).tamano);//Aqui cambiar con tamano_cola
+	/*
+	 * Codigo para buscar elemento
+	 *
+	 */
+	int *ele;
+	do{
+		ele = decolar(cola1);
+	}while(ele!=NULL);
+
+	printf("Elementos decolados\n");
 	destruir_cola(cola1);
-	printf("La cola se ha destruido\n");
 	return 0;
 }
