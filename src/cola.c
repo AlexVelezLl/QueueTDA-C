@@ -25,11 +25,33 @@ int encolar(cola* mi_cola, void* elemento){
 		(*mi_cola).final = nodo;
 	}else{
 		(*(*mi_cola).final).siguiente = nodo;
+		(*nodo).anterior = (*mi_cola).final;
 		(*mi_cola).final = nodo;	
 	}
-	(*mi_cola).tamano+=1;
+	(*mi_cola).tamano++;
 	return 0;
 }
 
-//void *decolar(nodo_cola* mi_cola){
-//}
+void *decolar(cola* mi_cola){
+	if((*mi_cola).tamano==0){
+		return NULL;
+	}
+	void *elemento = (*(*mi_cola).inicio).elemento;
+	nodo_cola* tmp = (*mi_cola).inicio;
+	(*mi_cola).inicio = (*(*mi_cola).inicio).siguiente;
+	free(tmp);
+	if((*mi_cola).tamano>1){
+		(*(*mi_cola).inicio).anterior = NULL;
+	}
+	(*mi_cola).tamano--;
+	return elemento;
+}
+
+int destruir_cola(cola* mi_cola){
+	if((*mi_cola).tamano>0){
+		return -1;
+	}
+	free(mi_cola);
+	mi_cola = NULL;
+	return 0;
+}
